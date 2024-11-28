@@ -1,8 +1,23 @@
 import React, { Component, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import './App.css'; 
+
+import { setSearchfield } from '../actions';
+
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchField
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearchChange: (event) => dispatch(setSearchfield(event.target.value))
+  }
+}
 
 class App extends Component {
   constructor() {
@@ -37,7 +52,7 @@ class App extends Component {
     (
       <div className='tc'>
         <h1 className='f1'>RoboFriends</h1>
-        <button onClick={() => setCount(count + 1)}>Click Me!</button>
+        {/* <button onClick={() => setCount(count + 1)}>Click Me!</button> */}
         <SearchBox searchChange={this.onSearchChange}/>
         <Scroll>
           <CardList robots={filteredRobots} />
@@ -83,4 +98,4 @@ class App extends Component {
 //     );
 // }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
